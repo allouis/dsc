@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/allouis/dsc/issues"
   },
-  "homepage": "https://github.com/allouis/dsc"
+  "homepage": "https://github.com/allouis/dsc",
+  "dependencies": {
+    "socket.io": "~0.9.16"
+  }
 }

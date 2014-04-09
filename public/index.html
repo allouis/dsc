@@ -1,8 +1,26 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 var socket = io.connect('http://localhost');
-socket.on('news', function (data) {
-  console.log(data);
-  socket.emit('my other event', { my: 'data' });
+
+function defineCommand (name, fn) {
+  var type = ['get', 'set'];
+  var obj = {};
+  obj[type[fn.length]] = fn;
+  Object.defineProperty(window, name, obj);
+}
+
+defineCommand('help', function(){
+  console.log('-         Help          -\n-------------------------\nhelp - show\'s this screen\nname - displays your username');
 });
+
+defineCommand('say', function(val){
+  console.log('say:', val);
+  return null
+})
+
+console.log('Welcome to the chat');
+
+
+
+
 </script>

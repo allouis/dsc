@@ -44,6 +44,7 @@
    * Msg handling
    */
   var getText = RegExp.prototype.toString;
+  RegExp.prototype.compile = function () {};
   RegExp.prototype.toString = function () {
     var rawmsg = getText.call(this);
     var msg = rawmsg.substring(1, rawmsg.length - 1);

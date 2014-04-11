@@ -29,16 +29,6 @@
     console.log('Logged in as %c' + user.name, 'color:' + user.color);
   });
 
-  defineCommand('name', function (val) {
-    user.name = val;
-    showMsgs();
-  });
-
-  defineCommand('color', function (val) {
-    user.color = val;
-    showMsgs();
-  });
-
   var commands = {
     name: function (msg) {
       user.name = msg.split(' ').pop();

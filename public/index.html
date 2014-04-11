@@ -39,15 +39,45 @@
     showMsgs();
   });
 
+  var commands = {
+    name: function (msg) {
+      user.name = msg.split(' ').pop();
+      console.clear();
+      console.log('Enter your messages as regex literals');
+    },
+    to: function (msg) {
+      var to = msg.split(' ').slice(1).shift();
+      var msg = msg.substr(msg.indexOf(' ') + 1);
+      var msg = msg.substr(msg.indexOf(' ') + 1);
+      sendMsg(msg, to);
+    }
+  }
+
   /*
    * Msg handling
    */
   var getText = RegExp.prototype.toString;
   RegExp.prototype.compile = function () {};
-  RegExp.prototype.toString = function () {
+
+  RegExp.prototype.toString = regexEntered
+
+  function regexEntered () {
     var rawmsg = getText.call(this);
     var msg = rawmsg.substring(1, rawmsg.length - 1);
-    sendMsg(msg);
+    var command = msg[0] === '@' ? msg.split(' ')[0].substr(1) : false
+      if (!command) {
+      if (user.name) {
+        sendMsg(msg);
+      } else {
+        console.log('Please set your username with the @name command');
+      }
+    } else {
+      if (commands[command]) {
+        commands[command](msg);
+      } else {
+        console.log('Please enter a valid command');
+      }
+    }
     return ' ';
   }
 
@@ -61,20 +91,22 @@
     history.forEach(showMsg);
   }
 
-  function sendMsg (msg) {
+  function sendMsg (msg, to) {
     if (!user.name) {
       console.log('Please define a username');
     }
     socket.emit('msg', {
       user: user,
-      msg: msg
+      msg: msg,
+      to: to
     });
   }
 
   function showMsg (msg) {
-    console.log('%c[' + msg.user.name + ']: %c'+msg.msg, 'color:'+msg.user.color, 'color:grey');
+    console.log('%c[' + msg.user.name + ']: %c'+msg.msg, 'color:'+msg.user.color, 'color:' + (msg.to === user.name ? '#e60000' : '#111111') );
   }
 
-  console.log('Welcome to the chat');
+  console.log('Please use the @name command to enter your username');
+  user.color = ['hotpink', 'blue', 'green', 'red', 'orange'][Math.floor(Math.random() * 5)]
 }());
 </script>

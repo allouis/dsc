@@ -86,7 +86,7 @@
       console.log('Please define a username');
     }
     socket.emit('msg', {
-      user: user,
+      user: user + '@' + window.location.host,
       msg: msg,
       to: to
     });
